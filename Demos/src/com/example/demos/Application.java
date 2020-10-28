@@ -1,14 +1,24 @@
 package com.example.demos;
 
 public class Application {
-
+	int atributo = 4;
+	public Application() {
+		this(4);
+	}
+	public Application(int atributo) {
+		this.atributo = atributo;
+	}
+	
+	
 	public static void main(String[] args) {
-		Application app = new Application();
+		Application app = new Application(4);
+		Demo demo = Demo.dameActual();
+		SubApp subApp = new SubApp(4);
 		Object object = app;
 		int a = 1, b = 2, c;
 		String cad = "";
 		String[] tabla = new String[10];
-
+		demo.Pintate(Grafico.BLANCO_Y_NEGRO);
 //		a += 1;
 //		a = a + 1;
 
@@ -41,25 +51,25 @@ public class Application {
 			break;
 		}
 
-		for (int indice = 0, j = 10; indice < tabla.length; indice++, j--)
-			System.out.println(tabla[indice]);
-		for (String item : tabla) {
-			System.out.println(item);
-		}
-
-		exterior: while (true)
-			while (true) {
-				// ...
-				if (condC)
-					continue;
-
-				if (cond)
-					break exterior;
-				// ...
-				if (cond2)
-					break;
-
-			}
+//		for (int indice = 0, j = 10; indice < tabla.length; indice++, j--)
+//			System.out.println(tabla[indice]);
+//		for (String item : tabla) {
+//			System.out.println(item);
+//		}
+//
+//		exterior: while (true)
+//			while (true) {
+//				// ...
+//				if (condC)
+//					continue;
+//
+//				if (cond)
+//					break exterior;
+//				// ...
+//				if (cond2)
+//					break;
+//
+//			}
 	}
 
 	int hazAlgo() {
