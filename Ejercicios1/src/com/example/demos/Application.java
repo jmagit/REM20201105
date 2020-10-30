@@ -1,5 +1,6 @@
 package com.example.demos;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class Application {
@@ -15,8 +16,8 @@ public class Application {
 //		ejer1Paso4();
 //		ejer1Paso5();
 //		ejer1Paso6();
-		
-		juego();
+
+		juegoExt();
 	}
 
 	public void ejer1Paso3() {
@@ -70,27 +71,41 @@ public class Application {
 	public void juego() {
 		Scanner teclado = new Scanner(System.in);
 
-	    int numeroBuscado = (int) (Math.random() * 100);
-	    int numeroIntroducido;
-	    int intentos = 0;
-	    boolean encontrado = false;
-	    do {
-	        intentos += 1;
-	        System.out.print("Dame tu numero (" + intentos + " de 10): ");
-	        numeroIntroducido = Integer.parseInt(teclado.nextLine());
-	        if (numeroBuscado == numeroIntroducido) {
-	            encontrado = true;
-	        } else if (numeroBuscado > numeroIntroducido) {
-	        	System.out.println("Mi número es mayor.");
-	        } else {
-	        	System.out.println("Mi número es menor.");
-	        }
-	    } while (intentos < 10 && !encontrado);
-	    if (encontrado) {
-	    	System.out.println("Bieeen!!! Acertaste.");
-	    } else {
-	    	System.out.println("Upsss! Se acabaron los intentos, el número era el " + numeroBuscado);
-	    }
+		int numeroBuscado = (int) (Math.random() * 100);
+		int numeroIntroducido;
+		int intentos = 0;
+		boolean encontrado = false;
+		do {
+			intentos += 1;
+			System.out.print("Dame tu numero (" + intentos + " de 10): ");
+			numeroIntroducido = Integer.parseInt(teclado.nextLine());
+			if (numeroBuscado == numeroIntroducido) {
+				encontrado = true;
+			} else if (numeroBuscado > numeroIntroducido) {
+				System.out.println("Mi número es mayor.");
+			} else {
+				System.out.println("Mi número es menor.");
+			}
+		} while (intentos < 10 && !encontrado);
+		if (encontrado) {
+			System.out.println("Bieeen!!! Acertaste.");
+		} else {
+			System.out.println("Upsss! Se acabaron los intentos, el número era el " + numeroBuscado);
+		}
+	}
+
+	public void juegoExt() {
+		Scanner teclado = new Scanner(System.in);
+
+		Juego juego = new NumerosJuego();
+		juego.inicializar();
+		for (int intentos = 1; intentos <= 10; intentos++) {
+			System.out.print("Dame tu numero (" + intentos + " de 10): ");
+			juego.jugada(teclado.nextLine());
+			System.out.println(juego.getResultado());
+			if (juego.getFinalizado())
+				break;
+		}
 	}
 
 }
