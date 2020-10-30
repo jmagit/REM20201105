@@ -2,7 +2,6 @@ package com.example.demos;
 
 public class Line {
 	private Point point1, point2;
-
 	
 	public Line(Point point1, Point point2) {
 		this.point1 = point1;
@@ -10,7 +9,7 @@ public class Line {
 	}
 
 	public Point getPoint1() {
-		return point1;
+		return point1.clone();
 	}
 
 	public void setPoint1(Point point1) {
@@ -18,7 +17,7 @@ public class Line {
 	}
 
 	public Point getPoint2() {
-		return point2;
+		return point2.clone();
 	}
 
 	public void setPoint2(Point point2) {
@@ -26,10 +25,10 @@ public class Line {
 	}
 	
 	public int deltaX() {
-		return Math.abs(point1.x -point2.x);
+		return Math.abs(point1.getX() -point2.getX());
 	}
 	
 	public int deltaY() {
-		return Math.abs(point1.y -point2.y);
+		return Math.abs(point1.getY() -point2.getY());
 	}
 }

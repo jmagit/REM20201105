@@ -1,8 +1,7 @@
 package com.example.demos;
 
 public class Point {
-	int x, y;
-
+	private int x, y;
 	
 	public Point(int x, int y) {
 		this.x = x;
@@ -25,25 +24,21 @@ public class Point {
 		this.y = y;
 	}
 
-//	@Override
-//	public boolean equals(Object obj) {
-//		if (this == obj)
-//			return true;
-//		if (obj == null)
-//			return false;
-//		if (getClass() != obj.getClass())
-//			return false;
-//		Point other = (Point) obj;
-//		if (x != other.x)
-//			return false;
-//		if (y != other.y)
-//			return false;
-//		return true;
-//	}
-//	
-//	@Override
-//	public Point clone() {
-//		return new Point(x, y) ;
-//	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Point other = (Point) obj;
+		return x == other.x && y == other.y;
+	}
+	
+	@Override
+	public Point clone() {
+		return new Point(x, y) ;
+	}
 	
 }
