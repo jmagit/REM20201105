@@ -1,8 +1,11 @@
-package com.example.demos;
+package com.example.juegos.numero;
 
 import java.util.Scanner;
 
-public class NumerosJuego implements Juego {
+import com.example.juegos.Juego;
+import com.example.juegos.JuegoException;
+
+public class NumerosJuego implements Juego<String> {
 	private int numeroBuscado = 0;
     private int intentos = 0;
     private boolean encontrado = false;
@@ -21,10 +24,9 @@ public class NumerosJuego implements Juego {
 	}
 
 	@Override
-	public void jugada(String movimiento) {
+	public void jugada(String movimiento) throws JuegoException {
 		if(getFinalizado()) {
-			resultado = "Error";
-			return;
+			throw new JuegoException("El juego a finalizado");
 		}
         int numeroIntroducido = Integer.parseInt(movimiento);
         intentos += 1;
@@ -41,7 +43,7 @@ public class NumerosJuego implements Juego {
 	}
 
 	@Override
-	public Object getResultado() {
+	public String getResultado() {
 		return resultado;
 	}
 

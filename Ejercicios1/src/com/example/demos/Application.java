@@ -1,7 +1,13 @@
 package com.example.demos;
 
-import java.util.Random;
 import java.util.Scanner;
+
+import com.example.demos.geometrias.Line;
+import com.example.demos.geometrias.Point;
+import com.example.juegos.Juego;
+import com.example.juegos.JuegoException;
+
+import static java.lang.Math.*;
 
 public class Application {
 
@@ -11,6 +17,10 @@ public class Application {
 		app.run();
 	}
 
+	private enum DiasLaborables {
+		LUNES, MARTES, MIERCOLES, JUEVES, VIERNES
+	}
+
 	public void run() {
 //		ejer1Paso3();
 //		ejer1Paso4();
@@ -18,6 +28,9 @@ public class Application {
 //		ejer1Paso6();
 
 		juegoExt();
+
+		DiasLaborables dia = DiasLaborables.JUEVES;
+
 	}
 
 	public void ejer1Paso3() {
@@ -71,7 +84,7 @@ public class Application {
 	public void juego() {
 		Scanner teclado = new Scanner(System.in);
 
-		int numeroBuscado = (int) (Math.random() * 100);
+		int numeroBuscado = (int) (random() * 100);
 		int numeroIntroducido;
 		int intentos = 0;
 		boolean encontrado = false;
@@ -97,14 +110,18 @@ public class Application {
 	public void juegoExt() {
 		Scanner teclado = new Scanner(System.in);
 
-		Juego juego = new NumerosJuego();
-		juego.inicializar();
-		for (int intentos = 1; intentos <= 10 && !juego.getFinalizado(); intentos++) {
-			System.out.print("Dame tu numero (" + intentos + " de 10): ");
-			juego.jugada(teclado.nextLine());
-			System.out.println(juego.getResultado());
-//			if (juego.getFinalizado())
-//				break;
+		try {
+			Juego<String> juego = new com.example.juegos.numero.NumerosJuego();
+			juego.inicializar();
+			for (int intentos = 1; intentos <= 10; intentos++) {
+				System.out.print("Dame tu numero (" + intentos + " de 10): ");
+				juego.jugada(teclado.nextLine());
+				System.out.println(juego.getResultado());
+				if (juego.getFinalizado())
+					break;
+			}
+		} catch (JuegoException e) {
+			e.printStackTrace();
 		}
 	}
 

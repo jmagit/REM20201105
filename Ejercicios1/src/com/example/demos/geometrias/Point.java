@@ -1,4 +1,4 @@
-package com.example.demos;
+package com.example.demos.geometrias;
 
 public class Point {
 	private int x, y;

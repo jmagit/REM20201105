@@ -1,9 +1,11 @@
-package com.example.demos;
+package com.example.demos.geometrias;
 
 public class Line {
 	private Point point1, point2;
 	
 	public Line(Point point1, Point point2) {
+		if(point1 == null || point2 == null)
+			throw new IllegalArgumentException();
 		this.point1 = point1;
 		this.point2 = point2;
 	}
