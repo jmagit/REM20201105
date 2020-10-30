@@ -99,12 +99,12 @@ public class Application {
 
 		Juego juego = new NumerosJuego();
 		juego.inicializar();
-		for (int intentos = 1; intentos <= 10; intentos++) {
+		for (int intentos = 1; intentos <= 10 && !juego.getFinalizado(); intentos++) {
 			System.out.print("Dame tu numero (" + intentos + " de 10): ");
 			juego.jugada(teclado.nextLine());
 			System.out.println(juego.getResultado());
-			if (juego.getFinalizado())
-				break;
+//			if (juego.getFinalizado())
+//				break;
 		}
 	}
 

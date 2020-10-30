@@ -3,9 +3,7 @@ package com.example.demos;
 import java.util.Scanner;
 
 public class NumerosJuego implements Juego {
-	Scanner teclado = new Scanner(System.in);
-
-	private int numeroBuscado = (int) (Math.random() * 100);
+	private int numeroBuscado = 0;
     private int intentos = 0;
     private boolean encontrado = false;
     private String resultado;
@@ -24,7 +22,7 @@ public class NumerosJuego implements Juego {
 
 	@Override
 	public void jugada(String movimiento) {
-		if(intentos >= 10 && encontrado) {
+		if(getFinalizado()) {
 			resultado = "Error";
 			return;
 		}
