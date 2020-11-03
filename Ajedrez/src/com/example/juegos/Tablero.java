@@ -27,8 +27,6 @@ public class Tablero implements Cloneable {
 	private Pieza get(int fila, int columna) {
 		if (!esValido(fila) || !esValido(columna))
 			throw new IndexOutOfBoundsException("Posición fuera del tablero.");
-//		if(piezas[fila - 1][columna - 1] == null)
-//			throw new NullPointerException("No hay pieza en la posición");
 		return piezas[fila - 1][columna - 1];
 	}
 
