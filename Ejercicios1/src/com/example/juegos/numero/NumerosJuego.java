@@ -5,6 +5,11 @@ import java.util.Scanner;
 import com.example.juegos.Juego;
 import com.example.juegos.JuegoException;
 
+/**
+ * Juego de adivinar numeros
+ * @author Javier
+ * @version 1.0
+ */
 public class NumerosJuego implements Juego<String> {
 	private int numeroBuscado = 0;
     private int intentos = 0;
@@ -15,6 +20,9 @@ public class NumerosJuego implements Juego<String> {
 		inicializar();
 	}
     
+    /**
+     * Inicializa el juego
+     */
 	@Override
 	public void inicializar() {
      numeroBuscado = (int) (Math.random() * 100);
@@ -42,6 +50,9 @@ public class NumerosJuego implements Juego<String> {
         }
 	}
 
+	/**
+	 * Cadena con el mensaje de la ultima jugada
+	 */
 	@Override
 	public String getResultado() {
 		return resultado;

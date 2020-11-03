@@ -11,6 +11,23 @@ public class Application {
 	
 	
 	public static void main(String[] args) {
+//		String cad = "X";
+//		cad = cad + "y";
+//		for(int i=0; i < 100; i++) {
+//			cad += ' ';
+//		}
+//		StringBuilder sb = new StringBuilder("Xy");
+//		for(int i=0; i < 100; i++) {
+//			sb.append(' ');
+//		}
+//		cad = sb.toString();
+		
+		Object o = 5;
+		if(o instanceof Integer) {
+			Integer i = (int)o;
+			int rslt = i + 5;
+			System.out.println("vale " + i);
+		}
 		Application app = new Application(4);
 		Demo demo = Demo.dameActual();
 		SubApp subApp = new SubApp(4);
