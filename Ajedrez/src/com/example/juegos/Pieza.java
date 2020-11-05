@@ -23,15 +23,24 @@ public abstract class Pieza {
 	public Color getColor() {
 		return color;
 	}
+
+	/**
+	 * Abstracto. Indica porque la pieza no puede realizar el movimiento.
+	 * @param movimiento Movimiento a verificar.
+	 * @param tablero Tablero para verificar que no salta piezas.
+	 * @return Mensaje de porque la pieza no puede realizar el movimiento o cadena vacia si puede realizarlo.
+	 */
+	public abstract String getError(Movimiento movimiento, Tablero tablero);
 	
 	/**
 	 * Abstracto. Indica si la pieza puede realizar el movimiento.
 	 * @param movimiento Movimiento a verificar.
 	 * @param tablero Tablero para verificar que no salta piezas.
 	 * @return Es true si la pieza puede realizar el movimiento; en caso contrario, genera una excepción.
-	 * @throws JuegoException Genera la excepción con la razón por la que no puede realizar el movimiento.
 	 */
-	public abstract boolean esValido(Movimiento movimiento, Tablero tablero) throws JuegoException;
+	public boolean esValido(Movimiento movimiento, Tablero tablero) {
+		return getError(movimiento, tablero).isBlank(); 		
+	}
 	
 	/**
 	 * Reemplazable. Mueve la pieza en el tablero.
@@ -42,6 +51,8 @@ public abstract class Pieza {
 	public void mover(Movimiento movimiento, Tablero tablero) throws JuegoException {
         if (esValido(movimiento, tablero))
             tablero.mover(movimiento);
+        else 
+        	throw new JuegoException(getError(movimiento, tablero));
     }
 
 	@Override

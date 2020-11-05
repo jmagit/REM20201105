@@ -94,6 +94,18 @@ public class Application {
 	}
 
 	int hazOtro() {
+		ordena(new Comparable<String>() {
+			
+			@Override
+			public int compareTo(String arg0) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+		});
 		return 0;
+	}
+	
+	void ordena(Comparable<String> comp) {
+		// comp.compareTo(arg0)
 	}
 }

@@ -1,20 +1,77 @@
 package com.example.juegos;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+
 /**
  * Representa al Tablero del juego como contenedor de piezas.
  * 
  * @author Javier
- * @version 1.0
+ * @version 1.5
  */
 public class Tablero implements Cloneable {
-	private Pieza[][] piezas;
+//  
+//  Version 1.0
+//
+//	private Pieza[][] piezas;
+//
+//	public Tablero() {
+//		piezas = new Pieza[8][8];
+//	}
+//
+//	/**
+//	 * Obtiene la pieza del tablero indicada por la fila y la columna.
+//	 * @param fila Valor entre 1 y 8 de la fila en el tablero.
+//	 * @param columna Valor entre 1 y 8 de la columna en el tablero.
+//	 * @return Pieza en el tablero, nulo en caso de que no haya pieza.
+//	 */
+//	private Pieza get(int fila, int columna) {
+//		if (!esValido(fila) || !esValido(columna))
+//			throw new IndexOutOfBoundsException("Posición fuera del tablero.");
+//		return piezas[fila - 1][columna - 1];
+//	}
+//
+//	/**
+//	 * Obtiene la pieza del tablero indicada por la posición.
+//	 * @param posicion Posición con la fila y la columna en el tablero.
+//	 * @return Pieza en el tablero, nulo en caso de que no haya pieza.
+//	 */
+//	private Pieza get(Posicion posicion) {
+//		return get(posicion.getFila(), posicion.getColumna());
+//	}
+//
+//	/**
+//	 * Establece la pieza del tablero indicada por la fila y la columna.
+//	 * @param fila Valor entre 1 y 8 de la fila en el tablero.
+//	 * @param columna Valor entre 1 y 8 de la columna en el tablero.
+//	 * @param pieza Pieza a introducir en el tablero, sobre escribe en caso de que haya otra pieza.
+//	 */
+//	private void set(int fila, int columna, Pieza pieza) {
+//		if (!esValido(fila) || !esValido(columna))
+//			throw new IndexOutOfBoundsException("Posición fuera del tablero.");
+//		piezas[fila - 1][columna - 1] = pieza;
+//	}
+//
+//	/**
+//	 * Establece la pieza del tablero indicada por la posición.
+//	 * @param posicion Posición con la fila y la columna en el tablero.
+//	 * @param pieza Pieza a introducir en el tablero, sobre escribe en caso de que haya otra pieza.
+//	 */
+//	private void set(Posicion posicion, Pieza pieza) {
+//		set(posicion.getFila(), posicion.getColumna(), pieza);
+//	}
+
+//  
+//  Version 1.0
+//
+
+	private Map<Posicion, Pieza> piezas;
 
 	public Tablero() {
-		piezas = new Pieza[8][8];
-	}
-
-	private boolean esValido(int indice) {
-		return 1 <= indice && indice <= 8;
+		piezas = new HashMap<Posicion, Pieza>();
 	}
 
 	/**
@@ -27,7 +84,11 @@ public class Tablero implements Cloneable {
 	private Pieza get(int fila, int columna) {
 		if (!esValido(fila) || !esValido(columna))
 			throw new IndexOutOfBoundsException("Posición fuera del tablero.");
-		return piezas[fila - 1][columna - 1];
+		try {
+			return get(new Posicion(fila, columna));
+		} catch (JuegoException e) {
+			throw new IndexOutOfBoundsException("Posición fuera del tablero.");
+		}
 	}
 
 	/**
@@ -37,7 +98,7 @@ public class Tablero implements Cloneable {
 	 * @return Pieza en el tablero, nulo en caso de que no haya pieza.
 	 */
 	private Pieza get(Posicion posicion) {
-		return get(posicion.getFila(), posicion.getColumna());
+		return piezas.get(posicion);
 	}
 
 	/**
@@ -51,7 +112,11 @@ public class Tablero implements Cloneable {
 	private void set(int fila, int columna, Pieza pieza) {
 		if (!esValido(fila) || !esValido(columna))
 			throw new IndexOutOfBoundsException("Posición fuera del tablero.");
-		piezas[fila - 1][columna - 1] = pieza;
+		try {
+			set(new Posicion(fila, columna), pieza);
+		} catch (JuegoException e) {
+			throw new IndexOutOfBoundsException("Posición fuera del tablero.");
+		}
 	}
 
 	/**
@@ -62,7 +127,18 @@ public class Tablero implements Cloneable {
 	 *                 que haya otra pieza.
 	 */
 	private void set(Posicion posicion, Pieza pieza) {
-		set(posicion.getFila(), posicion.getColumna(), pieza);
+		if (piezas.containsKey(posicion)) {
+			if (pieza == null)
+				piezas.remove(posicion);
+			else {
+				piezas.replace(posicion, pieza);
+			}
+		} else
+			piezas.put(posicion, pieza);
+	}
+
+	private boolean esValido(int indice) {
+		return 1 <= indice && indice <= 8;
 	}
 
 	/**
@@ -213,10 +289,145 @@ public class Tablero implements Cloneable {
 	 */
 	@Override
 	public Tablero clone() {
-		try {
-			return (Tablero) super.clone();
-		} catch (CloneNotSupportedException e) {
-			return null;
+		Tablero rslt = new Tablero();
+		for (int f = 1; f <= 8; f++) {
+			for (int c = 1; c <= 8; c++) {
+				rslt.set(f, c, get(f, c));
+			}
 		}
+		return rslt;
+	}
+
+	/**
+	 * Representa un escaque del Tablero con la posición y la pieza que contiene.
+	 * 
+	 * @author Javier
+	 * @version 1.5
+	 */
+	public class Escaque {
+		private Posicion posicion;
+		private Pieza pieza;
+
+		public Escaque(int fila, int columna, Pieza pieza) throws JuegoException {
+			this(new Posicion(fila, columna), pieza);
+		}
+
+		public Escaque(char fila, char columna, Pieza pieza) throws JuegoException {
+			this(new Posicion(fila, columna), pieza);
+		}
+
+		public Escaque(Posicion posicion, Pieza pieza) {
+			this.posicion = posicion;
+			this.pieza = pieza;
+		}
+
+		/**
+		 * Obtiene la posición del escaque
+		 * 
+		 * @return la posición
+		 */
+		public Posicion getPosicion() {
+			return posicion;
+		}
+
+		/**
+		 * Cambia la posición del escaque
+		 * 
+		 * @param posicion Nueva posición
+		 */
+		public void setPosicion(Posicion posicion) {
+			this.posicion = posicion;
+		}
+
+		/**
+		 * Obtiene el valor de la fila.
+		 * 
+		 * @return Valor entre 1 y 8 con la fila de la posición.
+		 */
+		public int getFila() {
+			return posicion.getFila();
+		}
+
+		/**
+		 * Obtiene el valor de la columna.
+		 * 
+		 * @return Valor entre 1 y 8 con la columna de la posición.
+		 */
+		public int getColumna() {
+			return posicion.getColumna();
+		}
+
+		/**
+		 * Obtiene la pieza que ocupa el escaque.
+		 * 
+		 * @return la pieza
+		 */
+		public Pieza getPieza() {
+			if (pieza == null)
+				throw new NullPointerException("No hay pieza en el escaque");
+			return pieza;
+		}
+
+		/**
+		 * Pone la pieza que ocupa el escaque.
+		 * 
+		 * @param pieza la pieza
+		 */
+		public void setPieza(Pieza pieza) {
+			this.pieza = pieza;
+		}
+
+		/**
+		 * Muestra si hay una pieza ocupando el escaque.
+		 * 
+		 * @return Es true si hay pieza en el escaque; en caso contrario, es false.
+		 */
+		public boolean hayPieza() {
+			return pieza != null;
+		}
+
+		@Override
+		public String toString() {
+			return "Escaque [" + posicion.getFila() + ", " + posicion.getColumna() + ", " + pieza + "]";
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			return posicion.equals(((Escaque) obj).posicion);
+		}
+
+		@Override
+		protected Object clone() {
+			return new Escaque(posicion, pieza);
+		}
+	}
+
+	/**
+	 * Permite realizar búsquedas en el tablero mediante expresiones lambda.
+	 * 
+	 * @param filtro Expresión lambda que recibe un escaque y debe devolver true si
+	 *               satisface la búsqueda.
+	 * @return Lista de escaques que satisfacen la búsqueda, estará vacía si no
+	 *         encuentra ninguno.
+	 */
+	public List<Escaque> buscar(Function<Escaque, Boolean> filtro) {
+		List<Escaque> rslt = new ArrayList<Escaque>();
+		for (int f = 1; f <= 8; f++) {
+			for (int c = 1; c <= 8; c++) {
+				try {
+					Escaque actual = new Escaque(f, c, get(f, c));
+					if (filtro.apply(actual))
+						rslt.add(actual);
+				} catch (Exception e) {
+				}
+			}
+		}
+		return rslt;
 	}
 }
