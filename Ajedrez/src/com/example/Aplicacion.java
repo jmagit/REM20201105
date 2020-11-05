@@ -72,9 +72,10 @@ public class Aplicacion {
 	}
 
 
+	@SuppressWarnings("unused")
 	private static void busquedas(Tablero t) {
 		System.out.println("Piezas Negras");
-		t.buscar(e -> e.hayPieza() && e.getPieza().getColor() == Color.NEGRO).stream()//.map(e-> e.getPosicion())
+		t.buscar(e -> e.hayPieza() && e.getPieza().getColor() == Color.NEGRO).stream()
 				.forEach(e -> System.out.println(e));
 		System.out.println("Rey Blanco");
 		t.buscar(e -> e.hayPieza() && e.getPieza() instanceof Rey && e.getPieza().getColor() == Color.BLANCO).stream()

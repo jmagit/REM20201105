@@ -122,5 +122,20 @@ public class Ajedrez implements Juego<Tablero> {
 	public Tablero getResultado() {
 		return tablero.clone();
 	}
+	
+	/**
+	 * Permite seguir jugando una partida que quedo a medias.
+	 * @param tablero Tablero con la situación en que quedo la partida.
+	 * @param turno Color del jugador que le toca jugar
+	 * @throws JuegoException La situación del tablero no es correcta.
+	 */
+	public void continuarPartida(Tablero tablero, Color turno) throws JuegoException {
+		assert tablero != null: "Falta el tablero con las piezas";
+		var reyes = tablero.buscar(e -> e.hayPieza() && e.getPieza() instanceof Rey);
+		if(reyes.size() != 2 && reyes.get(0).getPieza().getColor() == reyes.get(1).getPieza().getColor())
+			throw new JuegoException("Disposición incorrecta de piezas");
+		this.tablero = tablero.clone();
+		this.turno = turno;
+	}
 
 }

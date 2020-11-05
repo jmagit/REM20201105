@@ -1,7 +1,6 @@
 package com.example.juegos.ajedrez;
 
 import com.example.juegos.Color;
-import com.example.juegos.JuegoException;
 import com.example.juegos.Movimiento;
 import com.example.juegos.Pieza;
 import com.example.juegos.Tablero;
