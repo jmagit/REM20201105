@@ -65,7 +65,7 @@ public class Tablero implements Cloneable {
 //	}
 
 //  
-//  Version 1.0
+//  Version 1.5
 //
 
 	private Map<Posicion, Pieza> piezas;
