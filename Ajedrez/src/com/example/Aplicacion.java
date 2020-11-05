@@ -20,9 +20,6 @@ public class Aplicacion {
 
 	public static void main(String[] args) {
 		Juego<Tablero> juego = new Ajedrez(e -> pidePieza(e));
-		Tablero tablero = juego.getResultado();
-		tablero.setPieza(4, 4, new Dama(Color.BLANCO));
-		pintaTablero(juego.getResultado());
 		juego.inicializar();
 		do {
 			try {
@@ -77,7 +74,7 @@ public class Aplicacion {
 
 	private static void busquedas(Tablero t) {
 		System.out.println("Piezas Negras");
-		t.buscar(e -> e.hayPieza() && e.getPieza().getColor() == Color.NEGRO).stream()
+		t.buscar(e -> e.hayPieza() && e.getPieza().getColor() == Color.NEGRO).stream()//.map(e-> e.getPosicion())
 				.forEach(e -> System.out.println(e));
 		System.out.println("Rey Blanco");
 		t.buscar(e -> e.hayPieza() && e.getPieza() instanceof Rey && e.getPieza().getColor() == Color.BLANCO).stream()
